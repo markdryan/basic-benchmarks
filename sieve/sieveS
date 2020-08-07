@@ -1,0 +1,23 @@
+limit% := 100000
+T%=TIME
+DIM sieve%(limit%)
+prime% := 2
+WHILE prime% * prime% < limit%
+    FOR I% := prime%*2 TO limit% STEP prime%
+        sieve%(I%) = 1
+    NEXT
+    REPEAT
+        prime% += 1
+    UNTIL sieve%(prime%) = 0
+ENDWHILE
+
+taken% = TIME-T%
+
+FOR I% = 2 TO limit%
+    IF sieve%(I%) = 0 THEN
+        PRINT I%
+    ENDIF
+NEXT
+
+PRINT taken%
+

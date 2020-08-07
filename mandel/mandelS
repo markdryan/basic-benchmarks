@@ -1,0 +1,22 @@
+REM A modified version of the mandelbrot generator that appeared here:
+REM https://stardot.org.uk/forums/viewtopic.php?f=2&t=14919&hilit=type+ins&start=120#p217893
+
+T% := TIME
+zoom := 500
+FOR Y := -512 TO 512 STEP 4
+    FOR X := -640 TO 640 STEP 4
+        i% := 0
+        zx := 0
+        zy := 0
+        cx := (X/zoom) - 0.6
+        cy := Y/zoom
+	REPEAT
+	    xt := zx*zy
+	    zx = (zx*zx)-(zy*zy)+cx
+	    zy =(2*xt)+cy
+	    i% = i% + 1
+	UNTIL (i% = 100) OR (((zx*zx)+(zy*zy))>=4)
+     NEXT
+NEXT
+PRINT (TIME-T%)/100;
+PRINT " seconds."

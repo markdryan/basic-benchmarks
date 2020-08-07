@@ -1,0 +1,44 @@
+REM Based on code originally found here:
+REM https://rosettacode.org/wiki/Conway%27s_Game_of_Life#BBC_BASIC
+REM
+REM To code has been converted to Subtilis and the graphics statements
+REM have been removed.  Instead of running the 
+
+dx% := 64
+dy% := 64
+DIM old%(dx%+1,dy%+1)
+DIM new%(dx%+1,dy%+1)
+ 
+REM Set blinker:
+old%(50,50) = 1
+old%(50,51) = 1
+old%(50,52) = 1
+
+REM Set glider:
+old%(5,7) = 1
+old%(6,7) = 1
+old%(7,7) = 1 
+old%(7,6) = 1
+old%(6,5) = 1
+ 
+
+tmp%() := old%() 
+REM Run:
+t% = TIME
+i% := 0
+REPEAT
+   FOR X% := 1 TO dx%
+          FOR Y% := 1 TO dy%
+            S% := old%(X%-1,Y%) + old%(X%,Y%-1) + old%(X%-1,Y%-1) + old%(X%+1,Y%-1) +
+                old%(X%+1,Y%) + old%(X%,Y%+1) + old%(X%-1,Y%+1) + old%(X%+1,Y%+1)
+            O% := old%(X%,Y%)
+            N% := -(S%=3 OR (O%=1 AND S%=2))
+            new%(X%,Y%) = N%
+          NEXT
+        NEXT
+  tmp%() = old%()
+  old%() = new%()
+  new%() = tmp%()
+  i% += 1
+UNTIL i% = 200
+PRINT TIME-t%

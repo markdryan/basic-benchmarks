@@ -1,0 +1,109 @@
+REM A modified version of ClockSp 2.01 that appears on
+REM http://mdfs.net/Software/BBCBasic/Testing/ClockSp
+REM The biggest modification is the replacement of /
+REM with DIV in the strings test.  Also we don't do
+REM the average test.
+REM
+REM > ClockSp 2.01
+REM Calculate CPU clock speed
+PRINT"BBC BASIC CPU Timing Program"
+A% := 0
+T% := TIME
+REPEAT A% = A%+1 UNTIL TIME>T%+50
+
+Z := 0
+Z% :=0
+B := 1
+B% := 1
+F := 1/10
+C := 100
+C% := 100 
+D := 510
+D% := 510
+F% := 3
+REPEAT
+  C = C*10
+  C% = C%*10
+  D = D*10
+  D% = D%*10
+  F% = F%*10
+  F = F*10
+  A% = A% DIV 10
+UNTIL A%<50
+
+PRINT"Real REPEAT loop    ";
+T%=TIME
+A=Z
+REPEAT A=A+B UNTIL A>C
+T%=TIME-T%
+PROCp(F*41000/T%)
+
+PRINT"Integer REPEAT loop ";
+T%=TIME
+A%=Z%
+REPEAT A%=A%+B% UNTIL A%>C%
+T%=TIME-T%
+PROCp(F*23900/T%)
+
+PRINT"Real FOR loop       ";
+T%=TIME
+FOR A=Z TO D STEP B NEXT
+T%=TIME-T%
+PROCp(F*51200/T%)
+
+PRINT"Integer FOR loop    ";
+T%=TIME
+FOR A%=Z% TO D% STEP B% NEXT
+T%=TIME-T%
+PROCp(F*17800/T%)
+
+PRINT"Trig/Log test       ";
+IF COS(0) = 0 THEN
+  PRINT SPC(4) "<none>"
+ENDIF
+
+IF COS(0) <> 0 THEN
+  A=1
+  T% = TIME
+  FOR J% :=1 TO F%
+    A=TAN(ATN(EXP(LN(SQR(A*A)))))+1
+  NEXT
+  T%=TIME-T%
+  PROCp(F*68800/T%)
+ENDIF
+
+PRINT"String manipulation ";
+T%=TIME
+A$ := "STRINGMANIPULATIONTEST"
+FOR A% = 0 TO F%*4
+    rem A$=RIGHT$(MID$(A$,LEN(A$)/2,LEN(A$)/4+1)+RIGHT$(A$,LEN(A$)/4)+MID$(A$,LEN(A$)/2,2)+LEFT$(A$,LEN(A$)/4)+MID$(A$,LEN(A$)/4,LEN(A$)/4+1),LEN(A$))
+    A$=RIGHT$(MID$(A$,LEN(A$) div 2,LEN(A$) div 4 +1)+RIGHT$(A$,LEN(A$) div 4)+MID$(A$,LEN(A$) div 2 ,2)+LEFT$(A$,LEN(A$) div 4)+MID$(A$,LEN(A$) div 4,LEN(A$)div 4+1),LEN(A$))
+NEXT
+T%=TIME-T%
+PROCp(F*72750/T%)
+
+PRINT"Procedure call      ";
+T%=TIME
+FOR A%=Z% TO D%
+  PROCtest
+NEXT
+T%=TIME-T%
+PROCp(F*80500/T%)
+
+
+DEF PROCp(T%)
+     PRINT RIGHT$(("     "+STR$(T%DIV100)),6);
+     PRINT ".";
+     PRINT RIGHT$("0"+STR$(T%),2);
+     PRINT "MHz";
+     PRINT CHR$(8)
+ENDPROC
+
+rem DEF PROCp(T%)
+rem    PRINT T%/100;
+rem    PRINT " MHz"
+rem ENDPROC
+
+DEF PROCtest
+ENDPROC
+
