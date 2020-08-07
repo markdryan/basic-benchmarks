@@ -13,11 +13,5 @@ ENDWHILE
 
 taken% = TIME-T%
 
-FOR I% = 2 TO limit%
-    IF sieve%(I%) = 0 THEN
-        PRINT I%
-    ENDIF
-NEXT
-
 PRINT taken%
 
