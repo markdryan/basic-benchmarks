@@ -1,3 +1,6 @@
+      REM Based on code originally found here:
+      REM https://rosettacode.org/wiki/Conway%27s_Game_of_Life#BBC_BASIC
+
       dx% = 64
       dy% = 64
       DIM old%(dx%+1,dy%+1), new%(dx%+1,dy%+1)

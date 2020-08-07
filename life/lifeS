@@ -2,7 +2,7 @@ REM Based on code originally found here:
 REM https://rosettacode.org/wiki/Conway%27s_Game_of_Life#BBC_BASIC
 REM
 REM To code has been converted to Subtilis and the graphics statements
-REM have been removed.  Instead of running the 
+REM have been removed.
 
 dx% := 64
 dy% := 64
