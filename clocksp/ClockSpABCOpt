@@ -1,0 +1,44 @@
+    1 REM A modified version of ClockSp 2.01 that appears on
+    2 REM http://mdfs.net/Software/BBCBasic/Testing/ClockSp
+    3 REM The biggest modification is the replacement of /
+    4 REM with DIV in the strings test.  Also we don't do
+    5 REM the average test.
+    6 :
+    7 REM {NOESCAPECHECK}
+    8 REM {NOGOTOSUSED}
+    9 REM {NOSTACKCHECK}
+   10 REM {SYSCONSTONLY}
+   11 REM {SYSKNOWNONLY}
+   12 :
+   13 REM > ClockSp 2.01
+   20 REM Calculate CPU clock speed
+   30 PRINT"BBC BASIC CPU Timing Program"
+   40 A%=0:T%=TIME:REPEAT A%=A%+1:UNTIL TIME>T%+50
+   50 Z=0:Z%=0:B=1:B%=1:F=1/10:C=100:C%=100:D=510:D%=510:F%=3
+   60 REPEAT:C=C*10:C%=C%*10:D=D*10:D%=D%*10:F%=F%*10:F=F*10:A%=A%DIV10:UNTIL A%<50
+   70 PRINT"Real REPEAT loop    ";:T%=TIME:A=Z:REPEAT A=A+B:UNTIL A>C:T%=TIME-T%:PROCp(F*41000/T%)
+   80 PRINT"Integer REPEAT loop ";:T%=TIME:A%=Z%:REPEAT A%=A%+B%:UNTIL A%>C%:T%=TIME-T%:PROCp(F*23900/T%)
+   90 PRINT"Real FOR loop       ";:T%=TIME:FOR A=Z TO D STEP B:NEXT:T%=TIME-T%:P. "n/a"
+  100 PRINT"Integer FOR loop    ";:T%=TIME:FOR A%=Z% TO D% STEP B%:NEXT:T%=TIME-T%:P. "n/a"
+  110 PRINT"Trig/Log test       ";:IF COS0=0:PRINT SPC4"<none>"
+  120 IF COS0<>0:A=1:T%=TIME:FOR J%=1 TO F%:A=TAN(ATN(EXP(LN(SQR(A*A)))))+1:NEXT:T%=TIME-T%:PROCp(F*68800/T%)
+  130 REM PRINT"Ackermann Recursion ";
+  140 REM M%=3:T%=TIME:FORN%=1 TO 3:Z%=FNAck(M%,N%):NEXT:T%=TIME-T%:PROCp(F*255400/T%)
+  150 PRINT"String manipulation ";
+  160 T%=TIME:A$="STRINGMANIPULATIONTEST":FOR A%=0 TOF%*4:A$=RIGHT$(MID$(A$,LEN A$DIV2,LEN A$DIV4+1)+RIGHT$(A$,LEN A$DIV4)+MID$(A$,LEN A$DIV2,2)+LEFT$(A$,LEN A$DIV4)+MID$(A$,LEN A$DIV4,LEN A$DIV4+1),LEN A$):NEXT:T%=TIME-T%:PROCp(F*72750/T%)
+  170 PRINT"Procedure call      ";:T%=TIME:FOR A%=Z% TO D%:PROCtest:NEXT:T%=TIME-T%:PROCp(F*80500/T%)
+  180 REM PRINT"GOSUB call          ";:T%=TIME:FOR A%=Z% TO D%:GOSUB 300:NEXT:T%=TIME-T%:PROCp(F*90000/T%)
+  210 END
+  211   :
+  230 DEF FNAck(M%,N%)
+  240 IF M%=0:=N%+1
+  250 IF N%=0:=FNAck(M%-1,1)
+  260 =FNAck(M%-1,FNAck(M%,N%-1))
+  270 :
+  280 DEF PROCtest:ENDPROC
+  290 :
+  300 RETURN
+  310 :
+  320 DEF PROCp(T%):PRINT RIGHT$("     "+STR$(T%DIV100),6);".";RIGHT$("0"+STR$(T%),2);"MHz";CHR$8:ENDPROC
+  330 :
+  331

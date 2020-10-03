@@ -1,0 +1,23 @@
+REM {NOESCAPECHECK}
+REM {NOGOTOSUSED}
+REM {NOSTACKCHECK}
+REM {SYSCONSTONLY}
+REM {SYSKNOWNONLY}
+
+limit%=500000
+T%=TIME
+DIM sieve%(limit%)
+prime% = 2
+WHILE prime% * prime% < limit%
+    FOR I% = prime%*2 TO limit% STEP prime%
+        sieve%(I%) = 1
+    NEXT
+    REPEAT
+        prime% += 1
+    UNTIL sieve%(prime%) = 0
+ENDWHILE
+
+taken% = TIME-T%
+
+PRINT taken%
+

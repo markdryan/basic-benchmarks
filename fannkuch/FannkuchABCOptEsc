@@ -1,0 +1,97 @@
+REM {NOESCAPECHECK}
+REM {NOGOTOSUSED}
+REM {NOSTACKCHECK}
+REM {SYSCONSTONLY}
+REM {SYSKNOWNONLY}
+
+REM {ESCAPECHECK}
+T% = TIME
+F% = FNFannkuch(8)
+PRINT TIME - T%
+PRINT F%
+END
+
+DEF FNFannkuch(n%)
+  REM {ESCAPECHECK}
+  IF n% < 1 THEN
+    = 0
+  ENDIF
+
+  LOCAL n1%, i%, j%, r%, didpr%, flipsMax%, flips%, k%, tmp%
+  n1% = n% - 1
+
+  DIM perm%(n1%), perm1%(n1%), count%(n1%)
+
+  FOR i% = 0 TO n1%
+    REM {ESCAPECHECK}
+    perm1%(i%) = i%
+  NEXT
+
+  r% = n%
+  REPEAT
+    REM {ESCAPECHECK}
+    IF didpr% < 30 THEN
+      didpr% += 1
+    ENDIF
+
+    WHILE r% <> 1
+      REM {ESCAPECHECK}
+      count%(r%-1) = r%
+      r% -= 1
+    ENDWHILE
+
+    IF perm1%(0) <> 0 AND perm1%(n1%) <> n1% THEN
+      flips% = 0
+      i% = 1
+      WHILE i% < n%
+        REM {ESCAPECHECK}
+        perm%(i%) = perm1%(i%)
+        i% += 1
+      ENDWHILE
+      k% = perm1%(0)
+      REPEAT
+        REM {ESCAPECHECK}
+        i% = 1
+        j% = k% - 1
+        WHILE i% < j%
+          REM {ESCAPECHECK}
+          tmp% = perm%(i%)
+          perm%(i%) = perm%(j%)
+          perm%(j%) = tmp%
+          i% += 1
+          j% -= 1
+        ENDWHILE
+        flips% += 1
+        j% = perm%(k%)
+        perm%(k%) = k%
+        k% = j%
+      UNTIL k% = 0
+      IF flipsMax% < flips% THEN
+        flipsMax% = flips%
+      ENDIF
+    ENDIF
+
+    quit% = FALSE
+    WHILE (r% < n%) AND (NOT quit%)
+      REM {ESCAPECHECK}
+      tmp% = perm1%(0)
+      i% = 0
+      WHILE i% < r%
+        REM {ESCAPECHECK}
+        perm1%(i%) = perm1%(i%+1)
+        i% += 1
+      ENDWHILE
+      perm1%(r%) = tmp%
+      count%(r%) -= 1
+      IF count%(r%) > 0 THEN
+        quit% = TRUE
+      ELSE
+        r% +=1
+      ENDIF
+    ENDWHILE
+
+    IF r% = n% THEN
+      = flipsMax%
+    ENDIF
+  UNTIL FALSE
+=0
